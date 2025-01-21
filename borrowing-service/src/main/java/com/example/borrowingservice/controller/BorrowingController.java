@@ -3,33 +3,33 @@ package com.example.borrowingservice.controller;
 import com.example.borrowingservice.entity.Borrowing;
 import com.example.borrowingservice.service.BorrowingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/borrowings")
+@RequestMapping("/api/borrowings")
 public class BorrowingController {
+
     @Autowired
     private BorrowingService borrowingService;
 
-    @GetMapping
-    public List<Borrowing> getAllBorrowings() {
-        return borrowingService.getAllBorrowings();
-    }
-
-    @GetMapping("/{id}")
-    public Borrowing getBorrowingById(@PathVariable Long id) {
-        return borrowingService.findById(id);
-    }
-
     @PostMapping
-    public Borrowing saveBorrowing(@RequestBody Borrowing borrowing) {
-        return borrowingService.save(borrowing);
+    public ResponseEntity<Borrowing> createBorrowing(@RequestParam Long userId, @RequestParam Long bookId) {
+        Borrowing borrowing = borrowingService.createBorrowing(userId, bookId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(borrowing);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteBorrowingById(@PathVariable Long id) {
-        borrowingService.deleteById(id);
+    @PostMapping("/{id}/return")
+    public ResponseEntity<String> returnBorrowing(@PathVariable Long id) {
+        borrowingService.returnBorrowing(id);
+        return ResponseEntity.ok("Borrowing returned successfully.");
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Borrowing>> getBorrowingsByUserId(@PathVariable Long userId) {
+        return ResponseEntity.ok(borrowingService.getBorrowingsByUserId(userId));
     }
 }

@@ -5,11 +5,10 @@ import com.example.borrowingservice.entity.Borrowing;
 import java.util.List;
 
 public interface BorrowingService {
-    List<Borrowing> getAllBorrowings();
 
-    Borrowing findById(Long id);
+    Borrowing createBorrowing(Long userId, Long bookId);
 
-    Borrowing save(Borrowing borrowing);
+    void returnBorrowing(Long id);
 
-    void deleteById(Long id);
+    List<Borrowing> getBorrowingsByUserId(Long userId);
 }

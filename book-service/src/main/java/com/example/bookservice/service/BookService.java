@@ -7,7 +7,13 @@ public interface BookService {
 
     Book getBookById(Long id);
 
-    Book saveBook(Book book);
+    Book createBook(Book book);
 
-    void deleteBookById(Long id);
+    Book updateBook(Long id, Book book);
+
+    void deleteBook(Long id);
+
+    boolean borrowBook(Long id);
+
+    boolean returnBook(Long id);
 }
